@@ -22,20 +22,18 @@ router.get('/admin/me', isAdmin, async (req, res) => {
 
 router.put('/admin/profile', isAdmin, async (req, res) => {
   try {
-    const { username, currentPassword, newPassword } = req.body;
+    const { username, newPassword, pin } = req.body;
 
-    if (!currentPassword) {
-      return res.status(400).json({ error: 'La contraseña actual es obligatoria' });
+    if (!pin) {
+      return res.status(400).json({ error: 'El PIN de verificacion es obligatorio' });
+    }
+    if (pin !== process.env.ADMIN_PIN) {
+      return res.status(403).json({ error: 'PIN de verificacion incorrecto' });
     }
 
     const admin = await User.findById(req.session.user.id).select('+password');
     if (!admin) {
       return res.status(404).json({ error: 'Usuario no encontrado' });
-    }
-
-    const isMatch = await admin.comparePassword(currentPassword);
-    if (!isMatch) {
-      return res.status(401).json({ error: 'La contraseña actual es incorrecta' });
     }
 
     if (username !== undefined && username.trim() !== '') {

@@ -177,7 +177,6 @@ function openEditUser(id, username, assignedIds) {
 
   document.getElementById('editPassword').value = '';
   document.getElementById('editPin').value = '';
-  document.getElementById('editPasswordField').style.display = 'none';
   document.getElementById('editPinField').style.display = 'none';
 
   const container = document.getElementById('iframeCheckboxList');
@@ -285,10 +284,10 @@ document.getElementById('btnSaveAdminProfile').addEventListener('click', async (
   const username = document.getElementById('adminUsername').value.trim();
   const newPassword = document.getElementById('adminNewPassword').value;
   const confirmPassword = document.getElementById('adminConfirmPassword').value;
-  const currentPassword = document.getElementById('adminCurrentPassword').value;
+  const pin = document.getElementById('adminCurrentPassword').value;
 
-  if (!currentPassword) {
-    showAdminAlert('Debes ingresar tu contraseña actual para guardar', 'danger');
+  if (!pin) {
+    showAdminAlert('Debes ingresar el PIN de verificacion para guardar', 'danger');
     return;
   }
 
@@ -307,7 +306,7 @@ document.getElementById('btnSaveAdminProfile').addEventListener('click', async (
     const res = await fetch('/admin/profile', {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ username, newPassword, currentPassword })
+      body: JSON.stringify({ username, newPassword, pin })
     });
     const data = await res.json();
     if (!res.ok) {
