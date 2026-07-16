@@ -6,6 +6,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   const viewerFrame = document.getElementById('viewerFrame');
   const iframeGrid = document.getElementById('iframeGrid');
   const btnBack = document.getElementById('btnBack');
+  const formSection = document.getElementById('formSection');
 
   let iframes = [];
 
@@ -19,15 +20,18 @@ document.addEventListener('DOMContentLoaded', async () => {
     return;
   }
 
-  if (iframes.length === 0) return;
+  if (iframes.length > 0) {
+    defaultMessage.classList.add('d-none');
+    selectionView.classList.remove('d-none');
+    renderSelection();
+  }
 
-  defaultMessage.classList.add('d-none');
-  selectionView.classList.remove('d-none');
-  renderSelection();
+  formSection.classList.remove('d-none');
 
   btnBack.addEventListener('click', () => {
     viewerView.classList.add('d-none');
     selectionView.classList.remove('d-none');
+    formSection.classList.remove('d-none');
     btnBack.classList.add('d-none');
     viewerFrame.innerHTML = '';
   });
@@ -62,6 +66,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     const iframe = iframes[index];
     selectionView.classList.add('d-none');
     defaultMessage.classList.add('d-none');
+    formSection.classList.add('d-none');
     viewerView.classList.remove('d-none');
     btnBack.classList.remove('d-none');
 
